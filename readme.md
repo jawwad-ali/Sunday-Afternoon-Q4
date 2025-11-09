@@ -1,3 +1,6 @@
+## Homework Submission Link
+<a href="https://forms.gle/A5SgkmPy57WNMtQo8">Homework Submission Google Form</a>
+
 ## Panaversity
 <a href="https://github.com/panaversity">Panaversity</a>
 
