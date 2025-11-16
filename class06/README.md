@@ -58,6 +58,11 @@ memory or context = GEMINI.md
 
 <hr />
 
+# Deposit Module
+- Prompt for the `deposit` module
+- `Create an endpoint for deposit asking users the amount to deposit. Make sure to update the bank_balance after depositing`
+
+
 # HOMEWORK
 1. Make an API route with the endpoint `/authenticate`.
 2. The user should be asked for his/her `name` and `pin_number`
