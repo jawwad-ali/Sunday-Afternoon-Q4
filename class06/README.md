@@ -54,4 +54,17 @@ memory or context = GEMINI.md
    - 3.1 main = your Python file name (main.py)
    - 3.2 app = the FastAPI instance variable name
    - 3.3 --reload = auto-restart on code changes
-   - 3.4 Uvicorn = The server that actually runs and serves your FastAPI app to      	users
+   - 3.4 Uvicorn = The server that actually runs and serves your FastAPI app to users
+
+<hr />
+
+# HOMEWORK
+1. Make an API route with the endpoint `/authenticate`.
+2. The user should be asked for his/her `name` and `pin_number`
+3. Make an endpoint named /bank-transfer
+4. The user should be asked for the `receipents_name` and the `amount to trnasfer`
+5. After transfering the amount, the amount should be deducted from the sender and should be added to the 
+   receiver's accounts.
+
+6. After bank-transfer hit the authenticate with route again with the name of the person to whom you have transfered the amount.
+7. After authenticating from the receiver's account you should be able to see the amount added to the person bank_balance
