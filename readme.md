@@ -1,6 +1,9 @@
 ## Homework Submission Link
 <a href="https://forms.gle/A5SgkmPy57WNMtQo8">Homework Submission Google Form</a>
 
+## Panaversity Book
+<a href="https://ai-native.panaversity.org/docs/AI-Tool-Landscape/gemini-cli-installation-and-basics">Panaversity Book Chapter 2</a>
+
 ## Panaversity
 <a href="https://github.com/panaversity">Panaversity</a>
 
