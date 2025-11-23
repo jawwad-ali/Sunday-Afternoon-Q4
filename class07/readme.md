@@ -11,11 +11,12 @@ A step-by-step guide to convert your Figma designs into code using Gemini CLI.
 3. Select **Settings**
 4. Click on the **Account** tab
 5. Scroll down to **Personal Access Tokens** section
-6. Click **Generate new token**
-7. Give your token a name (e.g., "Gemini CLI Access")
-8. Click **Generate token**
-9. **⚠️ Copy the token immediately** - you won't be able to see it again!
-10. Save it somewhere safe.
+6. Make Sure to tick on all the checkboxes. If not you won't be able to access Figma
+7. Click **Generate new token**
+8. Give your token a name (e.g., "Gemini CLI Access")
+9. Click **Generate token**
+10. **⚠️ Copy the token immediately** - you won't be able to see it again!
+11. Save it somewhere safe.
 
 ---
 
