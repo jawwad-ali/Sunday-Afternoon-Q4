@@ -1,0 +1,2 @@
+# Ignore api directory to prevent automatic Python serverless function creation
+api/
