@@ -1,0 +1,15 @@
+[project]
+name = "fastapi-agents-sdk"
+version = "0.1.0"
+description = "FastAPI application with Google Gemini AI agent using OpenAI Agents SDK and custom function tools"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
+    "python-dotenv>=1.0.0",
+    "agents>=0.1.0",
+    "pydantic>=2.0.0",
+    "duckduckgo-search>=6.0.0",
+    "openai-agents>=0.6.5",
+]
