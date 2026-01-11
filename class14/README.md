@@ -46,7 +46,7 @@ GEMINI_API_KEY=your_actual_api_key_here
 
 ## Docker Commands
 ### 1. Create an Image
-`docker buidl -t fastapi-container .`
+`docker build -t fastapi-container .`
 
 ### 2. Run the Container
 `docker run -d -p 8000:8000 --name my-fastapi-container my-first-image`
