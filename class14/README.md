@@ -1,3 +1,15 @@
+# Docker Commands
+### 1. Create an Image
+`docker build -t fastapi-container .`
+
+### 2. Run the Container
+`docker run -d -p 8000:8000 --name my-fastapi-container my-first-image`
+
+### Run the Container with .env 
+`docker run -d -p 8000:8000 --env-file .env --name my-fastapi-container my-first-image`
+
+<hr style="border: 1px solid #2323f1;">
+
 # FastAPI Agents SDK with Gemini
 
 A FastAPI application that integrates Google Gemini AI with the OpenAI Agents SDK and custom function tools for web search, URL metadata extraction, and text analysis.
@@ -43,16 +55,6 @@ cp .env.example .env
 ```
 GEMINI_API_KEY=your_actual_api_key_here
 ```
-
-## Docker Commands
-### 1. Create an Image
-`docker build -t fastapi-container .`
-
-### 2. Run the Container
-`docker run -d -p 8000:8000 --name my-fastapi-container my-first-image`
-
-### Run the Container with .env 
-`docker run -d -p 8000:8000 --env-file .env --name my-fastapi-container my-first-image`
 
 Once running, visit:
 - Swagger UI: `http://localhost:8000/docs`
