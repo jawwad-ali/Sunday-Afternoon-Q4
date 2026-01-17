@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "Getting Started with Next.js",
+    "slug": "getting-started-nextjs",
+    "content": "Next.js is a powerful React framework that makes building web applications simple and efficient.",
+    "author": "John Doe",
+    "date": "2026-01-10"
+  },
+  {
+    "id": 2,
+    "title": "Understanding React Hooks",
+    "slug": "understanding-react-hooks",
+    "content": "React Hooks allow you to use state and other React features without writing a class component.",
+    "author": "Jane Smith",
+    "date": "2026-01-12"
+  },
+  {
+    "id": 3,
+    "title": "Tailwind CSS Tips and Tricks",
+    "slug": "tailwind-css-tips",
+    "content": "Tailwind CSS is a utility-first CSS framework that helps you build modern designs quickly.",
+    "author": "Mike Johnson",
+    "date": "2026-01-14"
+  },
+  {
+    "id": 4,
+    "title": "Docker for Beginners",
+    "slug": "docker-for-beginners",
+    "content": "Docker simplifies application deployment by packaging your app and its dependencies into containers.",
+    "author": "Sarah Wilson",
+    "date": "2026-01-15"
+  },
+  {
+    "id": 5,
+    "title": "TypeScript Best Practices",
+    "slug": "typescript-best-practices",
+    "content": "TypeScript adds static typing to JavaScript, helping you catch errors early in development.",
+    "author": "Chris Lee",
+    "date": "2026-01-17"
+  }
+]
