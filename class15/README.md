@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Class Notes
 
-## Getting Started
+Q) Why Bind Mountings?
+- Applications running inside docker containers are isolated/soundproof
 
-First, run the development server:
+- Bind mounts means "Sync Connection"
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## To run a Container from Image:
+- docker run -d -p 3000:3000 --name my-container <image-name>
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- -d - detached
+- -p - port
+- --name: Name of docker container
+- <image-name>: Name of the image
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Q) What is Detached Mode?
+When you run a container with detached mode (-d) it only returns a container-id.
 
-## Learn More
+- Name of the file to work with volumes:
+- docker-compose.yml
+- docker-compose.yaml
+  - Watch Mode
+  - to enable watch mode: press
+    "w"
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Q) What does watch mode do?
+  - sync - Syncs changes from ./app and ./public folders to the container without
+  rebuilding
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+  - rebuild - Rebuilds the container when package.json changes (new dependencies)
 
-## Deploy on Vercel
+  - command: npm run dev - Overrides the Dockerfile to run in dev mode (required for hot
+  reload)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+===
+ - To run with watch mode:
+ - docker compose watch
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+ - Or run detached:
+ - docker compose watch -d
+
+
+## Watch Mode:
+
+    develop:
+      watch:
+        - action: sync
+          path: ./app # Local app directory
+          target: /app/app
+Summary for watch mode:
+1) Create a docker-compose.yaml file to enable watch mode.
+2) sync your Machine(Laptop) app and public directory with docker app and public directory.
+3) Run command docker-compose up.
+4) Docker compose itself creates a new image
