@@ -1,8 +1,0 @@
-Metadata-Version: 2.4
-Name: backend
-Version: 0.1.0
-Summary: FastAPI Backend for Blog Management
-Requires-Python: >=3.12
-Description-Content-Type: text/markdown
-Requires-Dist: fastapi
-Requires-Dist: uvicorn[standard]
