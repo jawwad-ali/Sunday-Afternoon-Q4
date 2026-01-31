@@ -42,3 +42,12 @@ NOTE: Incase the Installation fails run these commands and try again
 - `docker system prune -f` (**This will remove everything in from your docker**)
 -  `docker volume rm minikube` 
 - `minikube start --driver=docker`
+
+## Lets Create your First Pod
+- `kubectl run my-first-pod --image=python --command -- sleep 3600`
+
+| Part | Meaning |
+|------|---------|
+| `--command` | Custom command run karo |
+| `--` | Yahan se container ka command shuru |
+| `sleep 3600` | Container ko 1 hour tak alive rakho |
