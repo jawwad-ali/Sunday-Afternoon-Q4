@@ -32,5 +32,13 @@
 - NOTE: This process will take time
 
 #### Run commands after the Installtion
-- minikube status
-- minikube dashboard
+- `minikube status`
+- vminikube dashboard`
+
+NOTE: Incase the Installation fails run these commands and try again
+- `minikube delete`
+- `docker rm -f minikube-preload-sidecar`
+- `docker rm -f minikube`
+- `docker system prune -f` (**This will remove everything in from your docker**)
+-  `docker volume rm minikube` 
+- `minikube start --driver=docker`
