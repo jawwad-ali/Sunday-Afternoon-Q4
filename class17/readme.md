@@ -1,15 +1,16 @@
 # Getting Started with Kubernetes/k8s
 
 ## Pods (Apartment inside the building)
-- 
-
+- A Pod is the smallest unit in Kubernetes that wraps one or more containers.
+- Kubernetes doesn't talk to containers directly, it manages Pods instead.
 
 ## Nodes (Building for the Pods)
--
+- A Node is a physical or virtual machine where Pods actually run.
+- There are two types: Master Node (decides where Pods go) and Worker Node (runs the Pods).
 
 ## Clusters (Society - Lots of Buildings)
--
-
+- A Cluster is a group of Nodes working together as one system.
+- It has one Master Node (manager) and multiple Worker Nodes (actual buildings where Pods live).
 
 
 # Installation
