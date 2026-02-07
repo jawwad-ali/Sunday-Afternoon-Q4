@@ -1,4 +1,4 @@
-# Singup - Login & JWT Authentication with FastAPI
+# Role Based Access Control (RBAC)
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel
@@ -17,12 +17,12 @@ ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # ---- OAuth2 Scheme ----
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-print("oauth2_scheme", oauth2_scheme.scheme_name)
 
 # User Model
 class UserCreate(BaseModel):
     username: str
     password: str
+    role: str = "student"  # Default role student hai
 
 # fake_db
 fake_db = []
@@ -51,6 +51,24 @@ def hash_password(plain_password: str) -> str:
 def verify_password(plain_password: str, hashed_password: str) -> bool:
     return password_hasher.verify(plain_password, hashed_password)
 
+# ---- Role Checker (Dependency) ----
+# Add these two functions for role-based access control
+def get_current_user(token: str = Depends(oauth2_scheme)) -> dict:
+    payload = verify_token(token)
+    username = payload.get("sub")
+    role = payload.get("role")
+    return {"username": username, "role": role}
+
+def role_required(allowed_roles: list):
+    def checker(current_user: dict = Depends(get_current_user)):
+        if current_user["role"] not in allowed_roles:
+            raise HTTPException(
+                status_code=403, 
+                detail=f"Access denied! Required role: {allowed_roles}"
+            )
+        return current_user
+    return checker
+
 ###### Utility Functions End ######
 
 # Sign Up Endpoint
@@ -61,7 +79,11 @@ async def register(user: UserCreate):
             return {"error": "Username already exists"}
 
     hashed_password = hash_password(user.password)
-    fake_db.append({"username": user.username, "password": hashed_password})
+    fake_db.append({
+        "username": user.username,
+        "password": hashed_password,
+        "role": user.role  # Role bhi save ho raha hai ab
+    })
     return {"message": f"User {user.username} registered successfully"}
         
 # Login Endpoint
@@ -82,17 +104,33 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
         raise HTTPException(status_code=401, detail="Invalid password!")
     
     # Step 3: Create JWT token
-    access_token = create_access_token(data={"sub": user["username"]})
+    access_token = create_access_token(data={"sub": user["username"], "role": user["role"]})
     
     return {"access_token": access_token, "token_type": "bearer"}
 
 
 # ---- Protected Route ----
-@app.get("/me")
-async def get_current_user(token: str = Depends(oauth2_scheme)):
-    payload = verify_token(token)
-    username = payload.get("sub")
-    return {"username": username, "message": f"Hello {username}! You are authenticated!"}
+# @app.get("/me")
+# async def get_current_user(token: str = Depends(oauth2_scheme)):
+#     payload = verify_token(token)
+#     username = payload.get("sub")
+#     return {"username": username, "message": f"Hello {username}! You are authenticated!"}
+
+# ---- Student + Teacher + Admin ----
+@app.get("/results")
+async def view_results(current_user: dict = Depends(role_required(["student", "teacher", "admin"]))):
+    return {"results": [{"subject": "Math", "marks": 85}], "accessed_by": current_user}
+
+# ---- Teacher + Admin Only ----
+@app.post("/results")
+async def add_results(current_user: dict = Depends(role_required(["teacher", "admin"]))):
+    return {"message": "Results added!", "added_by": current_user}
+
+# ---- Admin Only ----
+@app.get("/admin/users")
+async def admin_panel(current_user: dict = Depends(role_required(["admin"]))):
+    return {"users": fake_db, "accessed_by": current_user}
+
 
 # ---- Test Endpoint (sirf dekhne ke liye) ----
 @app.get("/users")

@@ -87,3 +87,37 @@ In production, **never hardcode the SECRET_KEY in your code**. Always keep it in
 ```
 # .env file
 SECRET_KEY=09d25e094faa6ca2556c818166b7a9563b93f7099f6f0f4caa6cf63b88e8d3e7
+
+
+
+Register these 3 users:
+
+```json
+{"username": "ali", "password": "pass123", "role": "student"}
+{"username": "sir_ahmed", "password": "pass123", "role": "teacher"}
+{"username": "boss", "password": "pass123", "role": "admin"}
+```
+
+**Login with each user and test the routes:**
+
+| Route | Student | Teacher | Admin |
+|-------|---------|---------|-------|
+| `GET /me` | ✅ | ✅ | ✅ |
+| `GET /results` | ✅ | ✅ | ✅ |
+| `POST /results` | ❌ 403 | ✅ | ✅ |
+| `GET /admin/users` | ❌ 403 | ❌ 403 | ✅ |
+
+---
+
+### 6. Behind The Scenes
+
+```
+Request → GET /admin/users
+    ↓
+Depends(oauth2_scheme) → Token extract
+    ↓
+get_current_user() → Token decode → {username: "ali", role: "student"}
+    ↓
+role_required(["admin"]) → "student" in ["admin"]? → NO!
+    ↓
+403 Forbidden: Access Denied! ❌
