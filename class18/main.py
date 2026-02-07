@@ -55,7 +55,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 ###### Utility Functions End ######
 
-# Sign Up Endpoint
+# Step 1. Sign Up Endpoint
 @app.post("/register")
 async def register(user: UserCreate):
     for existing_user in fake_db:
@@ -66,7 +66,7 @@ async def register(user: UserCreate):
     fake_db.append({"username": user.username, "password": hashed_password})
     return {"message": f"User {user.username} registered successfully"}
         
-# Login Endpoint
+# Step 2. Login Endpoint
 @app.post("/token")
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     # Step 1: Find user
@@ -88,8 +88,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
     
     return {"access_token": access_token, "token_type": "bearer"}
 
-
-# ---- Protected Route ----
+# Step 3. Protected Route
 @app.get("/me")
 async def get_current_user(token: str = Depends(oauth2_scheme)):
     payload = verify_token(token)
