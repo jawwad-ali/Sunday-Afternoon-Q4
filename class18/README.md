@@ -121,3 +121,11 @@ get_current_user() → Token decode → {username: "ali", role: "student"}
 role_required(["admin"]) → "student" in ["admin"]? → NO!
     ↓
 403 Forbidden: Access Denied! ❌
+
+
+## Summary
+
+1. **Sign Up** — First, we created the signup feature and hashed the password for security.
+2. **Login** — Then we built the login process. When a user logs in, we verify the plain password against the hashed password. If the password matches, the user gets logged in.
+3. **RBAC (Role-Based Access Control)** — Next, we implemented RBAC. We updated the `UserCreate` model by adding a `role` attribute, and also passed the `role` inside `create_access_token`.
+4. **Role-Based Endpoints** — Finally, we created 3 endpoints that are restricted based on user roles.
