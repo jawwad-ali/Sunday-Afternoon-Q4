@@ -7,17 +7,47 @@
 # ============================================
 
 import time
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Depends
 from fastapi.responses import JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import jwt, JWTError
 import rich
 
 app = FastAPI(
     title="Middleware Demo",
     description="A beginner-friendly API to learn middleware",
 )
+
+
+# ============================================
+# AUTH CONFIG (Fake Users + JWT Secret)
+# ============================================
+# In a real app these come from a database and
+# environment variables. Here we keep it simple.
+# ============================================
+SECRET_KEY = "super-secret-key-change-in-production"
+ALGORITHM = "HS256"
+
+# Fake user database — in reality this is your DB
+FAKE_USERS = {
+    "ali":    {"username": "ali",    "password": "ali123"},
+    "ahmed":  {"username": "ahmed",  "password": "ahmed123"},
+}
+
+# Routes that DON'T need login (public routes)
+PUBLIC_ROUTES = ["/", "/docs", "/openapi.json", "/token", "/redoc", "/favicon.ico"]
+
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
+
+def create_access_token(username: str) -> str:
+    """Create a JWT token that expires in 30 minutes."""
+    expire = datetime.now(timezone.utc) + timedelta(minutes=30)
+    payload = {"sub": username, "exp": expire}
+    return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 
 # ============================================
@@ -119,8 +149,95 @@ async def custom_header_middleware(request: Request, call_next):
 
 
 # ============================================
+# MIDDLEWARE 6: Auth Check (The Login Guard)
+# ============================================
+# Checks if the user is logged in by looking
+# for a valid JWT token in the Authorization
+# header. Public routes (like / and /docs)
+# are allowed without login.
+#
+# Think of it as the receptionist who checks
+# your employee badge — no badge, go to login.
+# ============================================
+@app.middleware("http")
+async def auth_middleware(request: Request, call_next):
+    # 1. Let public routes pass without any check
+    if request.url.path in PUBLIC_ROUTES:
+        return await call_next(request)
+
+    # 2. Get the Authorization header
+    auth_header = request.headers.get("Authorization")
+
+    if not auth_header or not auth_header.startswith("Bearer "):
+        print(f"[AUTH] REJECTED — No token provided for {request.url.path}")
+        return JSONResponse(
+            status_code=401,
+            content={
+                "error": "Not Authenticated",
+                "message": "You must be logged in. Send a POST to /token first to get a token.",
+            },
+        )
+
+    # 3. Extract and verify the token
+    token = auth_header.split("Bearer ")[1]
+
+    try:
+        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        username = payload.get("sub")
+        if username is None:
+            raise JWTError("No username in token")
+        print(f"[AUTH] APPROVED — User '{username}' accessing {request.url.path}")
+    except JWTError:
+        print(f"[AUTH] REJECTED — Invalid/expired token for {request.url.path}")
+        return JSONResponse(
+            status_code=401,
+            content={
+                "error": "Invalid Token",
+                "message": "Your token is invalid or expired. Get a new one from /token.",
+            },
+        )
+
+    # 4. Token is valid — let the request pass through
+    response = await call_next(request)
+    return response
+
+
+# ============================================
 # ROUTES (API Endpoints)
 # ============================================
+
+
+# ============================================
+# LOGIN ROUTE — Get your token here
+# ============================================
+# Send a POST with username & password to get
+# a JWT token. Use that token in the
+# Authorization header for protected routes.
+#
+# Example body (form data):
+#   username: ali
+#   password: ali123
+# ============================================
+@app.post("/token")
+async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    # Check if user exists and password matches
+    user = FAKE_USERS.get(form_data.username)
+
+    if not user or user["password"] != form_data.password:
+        return JSONResponse(
+            status_code=401,
+            content={"error": "Invalid credentials", "message": "Wrong username or password."},
+        )
+
+    # Create a JWT token for the user
+    token = create_access_token(username=user["username"])
+    print(f"[AUTH] Token created for user '{user['username']}'")
+
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "message": f"Welcome {user['username']}! Use this token in the Authorization header.",
+    }
 
 
 @app.get("/")
@@ -159,6 +276,22 @@ async def headers_route():
             "X-API-Version — the API version",
             "X-Powered-By — what powers this API",
         ],
+    }
+
+
+@app.get("/protected")
+async def protected_route():
+    return {
+        "message": "You are logged in! This is a protected route.",
+        "tip": "If you see this, your token is valid.",
+    }
+
+
+@app.get("/dashboard")
+async def dashboard():
+    return {
+        "message": "Welcome to your dashboard!",
+        "data": {"total_users": 42, "active_sessions": 7},
     }
 
 
