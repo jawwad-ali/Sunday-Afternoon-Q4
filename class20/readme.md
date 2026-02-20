@@ -47,3 +47,40 @@ Both MCP and REST APIs facilitate communication between systems in a client-serv
 
 ## When to Use Each
 - Use REST APIs for traditional, non-AI projects needing predictable, low-level control. Opt for MCP in AI-driven applications where context persistence and seamless tool integration accelerate development and enable more intelligent, autonomous behaviors.
+
+---
+
+## Running the FastMCP Server & Client
+
+### Start the Server
+
+```bash
+# Install FastMCP
+pip install fastmcp
+
+# Run with SSE transport (for testing via inspector or client)
+fastmcp run main.py --transport sse --port 8000
+```
+
+### Test with MCP Inspector (You can test on browser)
+
+```bash
+# Launch the dev inspector UI in your browser
+npx @modelcontextprotocol/inspector
+```
+
+Then connect to `http://127.0.0.1:8000/sse` in the inspector.
+
+### Run the Client Programmatically
+
+```bash
+# Make sure the server is running first, then in a separate terminal:
+python client.py
+```
+
+### MCP Protocol Methods
+
+| Method | What It Does |
+|---|---|
+| `tools/list` | Returns all registered tools with their names, descriptions, and input schemas |
+| `tools/call` | Executes a specific tool by name with the given arguments and returns the result |
