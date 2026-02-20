@@ -24,7 +24,7 @@ All the focus is on reducing the developer's effort — much like how automatic 
 - **Model Context Protocol (MCP):** An open standard designed for AI models and agents to interact with external tools, data sources, and workflows in a unified, contextual manner. It enables dynamic discovery of capabilities, maintains session-based context, and supports real-time updates, reducing integration complexity for AI systems.
 - **REST APIs:** An architectural style for web services using HTTP methods (e.g., GET, POST) to perform stateless operations on resources. It's widely used for application-to-application communication with fixed endpoints and explicit request-response patterns.
 
-### Similarities
+### Similarities to RESTful APIs
 
 Both MCP and REST APIs facilitate communication between systems in a client-server model, allowing one component to request data or actions from another. MCP often leverages REST internally as an underlying transport layer, wrapping existing APIs to make them AI-compatible without replacing them.
 
