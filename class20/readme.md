@@ -84,3 +84,59 @@ python client.py
 |---|---|
 | `tools/list` | Returns all registered tools with their names, descriptions, and input schemas |
 | `tools/call` | Executes a specific tool by name with the given arguments and returns the result |
+
+---
+
+## Understanding `http://localhost:8000/sse`
+
+This is where both worlds meet. Let's break it down piece by piece:
+
+```
+http://localhost:8000/sse
+```
+
+| Part | Meaning |
+|---|---|
+| `http://` | Protocol (HTTP) |
+| `localhost` | Your own machine |
+| `:8000` | Port number |
+| `/sse` | SSE endpoint (Server-Sent Events) |
+
+### But what is this actually?
+
+This is the **transport address** of a remote MCP server.
+
+Remember our layers:
+
+```
+MCP Client needs to FIND the MCP Server first
+        ↓
+Where is it?  →  http://localhost:8000/sse  (this is just the address)
+        ↓
+Once connected, they TALK in JSON-RPC  →  { "method": "getUser" ... }
+```
+
+### Analogy
+
+> The MCP server is a **person sitting in a room**.
+>
+> `http://localhost:8000/sse` is the **room number** — so the client knows WHERE to go.
+>
+> **JSON-RPC** is the **language** they speak once they're in the room.
+
+### REST vs MCP — How the URL is Used
+
+| | REST | MCP |
+|---|---|---|
+| **URL role** | The URL itself **IS** the request | The URL is just the **door** to find the server |
+| **Example** | `https://api.example.com/users/42` | `http://localhost:8000/sse` |
+| **What happens** | You visit the URL and get a response directly | You connect to the URL, then send **JSON-RPC messages** to actually talk |
+
+```
+REST → you visit https://api.example.com/users/42 and the URL itself IS the request
+
+MCP  → you go to http://localhost:8000/sse just to find the server,
+        then you send JSON-RPC messages to actually talk
+```
+
+**The URL is just the door. JSON-RPC is the conversation inside.**
