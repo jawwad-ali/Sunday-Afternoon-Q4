@@ -1,0 +1,45 @@
+{
+  "total": 5,
+  "books": [
+    {
+      "id": 1,
+      "title": "Atomic Habits",
+      "author": "James Clear",
+      "genre": "Self-Help",
+      "published_year": 2018,
+      "available": true
+    },
+    {
+      "id": 2,
+      "title": "The Pragmatic Programmer",
+      "author": "Andrew Hunt & David Thomas",
+      "genre": "Programming",
+      "published_year": 1999,
+      "available": true
+    },
+    {
+      "id": 3,
+      "title": "Clean Code",
+      "author": "Robert C. Martin",
+      "genre": "Programming",
+      "published_year": 2008,
+      "available": false
+    },
+    {
+      "id": 4,
+      "title": "Deep Work",
+      "author": "Cal Newport",
+      "genre": "Productivity",
+      "published_year": 2016,
+      "available": true
+    },
+    {
+      "id": 5,
+      "title": "Rich Dad Poor Dad",
+      "author": "Robert Kiyosaki",
+      "genre": "Finance",
+      "published_year": 1997,
+      "available": false
+    }
+  ]
+}

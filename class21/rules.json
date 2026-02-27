@@ -1,0 +1,24 @@
+{
+  "rules": [
+    {
+      "id": 1,
+      "rule": "Library opens from 9:00 AM to 6:00 PM, Monday to Saturday."
+    },
+    {
+      "id": 2,
+      "rule": "Each member can borrow up to 3 books at a time."
+    },
+    {
+      "id": 3,
+      "rule": "Books must be returned within 14 days."
+    },
+    {
+      "id": 4,
+      "rule": "Late return fine is $1 per day per book."
+    },
+    {
+      "id": 5,
+      "rule": "Maintain silence inside the library premises."
+    }
+  ]
+}
