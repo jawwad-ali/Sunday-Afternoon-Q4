@@ -13,14 +13,13 @@
 - Resources are read-only data endpoints exposed by an MCP server, allowing AI models to access pre-authorized information such as documents, configurations, and reference data.
 - They follow an **app-controlled** paradigm — the host application decides which data to expose, and the model simply reads what is made available via `resources/list` and `resources/read`.
 - Resources are identified by URIs (e.g., `docs://documents/{doc_id}`) and support both **direct** (static) and **templated** (dynamic with placeholders) patterns.
-- Each resource includes a `mimeType` (e.g., `text/plain`, `application/json`, `text/markdown`) that tells the client how to interpret the returned content.
 - Resources have no side effects — they are strictly read-only, making them ideal for secure, pre-authorized data access like document mentions (`@filename`) and context injection.
 
 ---
 
 ## MCP Prompts (User-Controlled Primitive)
 
-- Prompts are pre-crafted instruction templates created by domain experts that encode specialized knowledge into reusable, discoverable workflows.
+- Prompts are `pre-crafted instruction templates` created by `domain experts` that encode specialized knowledge into reusable, discoverable workflows.
 - They follow a **user-controlled** paradigm — the user explicitly selects which prompt to apply (e.g., via slash commands like `/contract_review`), unlike tools where the model decides autonomously.
 - Prompts are discovered via `prompts/list` and retrieved via `prompts/get`, with support for dynamic arguments that customize the template at runtime (e.g., `contract_type: "NDA"`).
 - They can be **static** (no arguments, same output every time) or **dynamic** (accept parameters that tailor the instruction to specific contexts, languages, or domains).
