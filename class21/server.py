@@ -3,10 +3,10 @@ from fastmcp import FastMCP
 
 mcp = FastMCP()
 
-with open("books.json") as f:
+with open("data/books.json") as f:
     books_data = json.load(f)
 
-with open("rules.json") as r:
+with open("data/rules.json") as r:
     rules = json.load(r)
 
 ######
