@@ -24,3 +24,20 @@
 - Prompts are discovered via `prompts/list` and retrieved via `prompts/get`, with support for dynamic arguments that customize the template at runtime (e.g., `contract_type: "NDA"`).
 - They can be **static** (no arguments, same output every time) or **dynamic** (accept parameters that tailor the instruction to specific contexts, languages, or domains).
 - Prompts enable expertise distribution at scale — a domain expert designs the prompt once, and thousands of users get consistent, expert-quality guidance without the expert being present.
+
+---
+
+## MCP Tools vs MCP Resources — Quick Comparison
+
+| Feature | MCP Tools | MCP Resources |
+|---|---|---|
+| **What is it?** | Functions the AI can run | Data the AI can read |
+| **Who controls it?** | The AI model decides when to use them | The app/host decides what to expose |
+| **Can it change data?** | Yes — can create, update, or delete things | No — strictly read-only |
+| **Side effects?** | Yes — can call APIs, write files, send emails, etc. | No side effects at all |
+| **Think of it as** | A button the AI can press to do something | A file the AI can open and read |
+| **How it's discovered** | `tools/list` and called via `tools/call` | `resources/list` and read via `resources/read` |
+| **Identified by** | A `name` + `inputSchema` (JSON Schema) | A URI (e.g., `docs://documents/{doc_id}`) |
+| **Example** | Create a new user, delete a record, send a message | Read a config file, fetch a document, load reference data |
+| **Risk level** | Higher — has annotations like `destructiveHint` | Lower — safe because nothing is modified |
+| **Best used for** | Actions and mutations | Providing context and information |
