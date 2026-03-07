@@ -169,7 +169,7 @@ The server wants to use an LLM itself — but it can't do it directly, so it ask
 - API key available
 - Claude/GPT running
 
-## Who Pays the Bill?
+## Why doesn't the Server hold the API key and call the LLM directly?
 
 API key = Billing account
 
