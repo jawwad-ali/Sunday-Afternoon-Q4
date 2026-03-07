@@ -193,3 +193,133 @@ With sampling:
 ## Core Takeaway
 
 > **Sampling exists so that the Server stays powerful, but the Client's control, billing, and security always remain safe!**
+
+---
+
+# MCP Transports — How Client and Server Talk
+
+A **transport** is the method used to send messages between the Client and Server. Think of it as the road between two houses — the houses are the same, but the road can be different.
+
+MCP supports two main transports: **stdio** and **SSE**.
+
+---
+
+## stdio (Standard Input / Output)
+
+### What is it?
+
+stdio means the client and server talk through a **direct pipe** — like two tin cans connected by a string. No internet, no port, no URL. Just raw input and output streams.
+
+### How does it work?
+
+1. The **client starts the server** as a child process (like opening an app)
+2. The client **writes** JSON-RPC messages into the server's **stdin** (input pipe)
+3. The server **reads** from stdin, does its work, and **writes** the response to **stdout** (output pipe)
+4. The client **reads** the response from stdout
+
+```
+Client  ──writes──▶  Server's stdin
+Client  ◀──reads───  Server's stdout
+```
+
+### When to use it?
+
+- You're running everything on **one machine**
+- The server is a **local script** (like `server.py`)
+- You want the **simplest setup** — no network configuration needed
+- Great for **CLI tools**, **IDE plugins**, and **MCP Inspector**
+
+### Key traits
+
+| Trait              | stdio                                |
+| ------------------ | ------------------------------------ |
+| **Connection**     | Direct pipe (no network)             |
+| **Who starts it?** | Client spawns the server             |
+| **Clients**        | One client per server process        |
+| **Speed**          | Very fast (no HTTP overhead)         |
+| **Setup**          | Zero config — just run it            |
+
+### Analogy
+
+Imagine **whispering directly into someone's ear** in the same room. No phone needed, no internet — just a direct private conversation.
+
+---
+
+## SSE (Server-Sent Events)
+
+### What is it?
+
+SSE means the server **runs independently on a port** (like a website) and clients **connect to it over HTTP**. The server stays alive and keeps an open connection so it can push messages back to the client in real-time.
+
+### How does it work?
+
+1. The **server starts first** and listens on a port (e.g. `http://localhost:8000/sse`)
+2. The **client connects** to that URL
+3. Client sends requests via **HTTP POST**
+4. Server sends responses back through an **SSE stream** (a long-lived HTTP connection that stays open)
+
+```
+Server is running at http://localhost:8000/sse
+        ▲
+        │
+Client connects ──▶ sends requests via HTTP
+Client ◀── receives responses via SSE stream
+```
+
+### When to use it?
+
+- Server and client are on **different machines** (or could be)
+- You want **multiple clients** connecting to **one server**
+- You're building a **web app** or **remote service**
+- You need the server to **stay running** independently
+
+### Key traits
+
+| Trait              | SSE                                        |
+| ------------------ | ------------------------------------------ |
+| **Connection**     | HTTP over network (URL + port)             |
+| **Who starts it?** | Server runs on its own, clients connect    |
+| **Clients**        | Multiple clients can connect at once       |
+| **Speed**          | Slightly slower (HTTP overhead)            |
+| **Setup**          | Need to start server first, then connect   |
+
+### Analogy
+
+Imagine a **radio station** broadcasting on a frequency. The station (server) is always on. Anyone with a radio (client) can tune in. Multiple people can listen at the same time.
+
+---
+
+## How are JSON-RPC, stdio, and SSE related?
+
+They work at **different layers** — they are NOT alternatives to each other.
+
+| Layer              | What it is                     | Example                        |
+| ------------------ | ------------------------------ | ------------------------------ |
+| **JSON-RPC**       | The **language** (message format) | `{"jsonrpc": "2.0", "method": "tools/call"}` |
+| **stdio / SSE**    | The **delivery method** (transport) | Pipe vs HTTP                  |
+
+> JSON-RPC is the **letter** you write. stdio and SSE decide whether you **hand-deliver** it or **mail** it. The letter stays the same either way.
+
+Both stdio and SSE carry the exact same JSON-RPC messages. Switching transport does NOT change what the messages look like — only how they travel.
+
+---
+
+## Side-by-Side Comparison
+
+| Feature            | stdio                         | SSE                                  |
+| ------------------ | ----------------------------- | ------------------------------------ |
+| **How they talk**  | Direct pipe (stdin/stdout)    | HTTP connection (URL + port)         |
+| **Server startup** | Client spawns it              | Runs independently                   |
+| **Multiple clients** | No (1 client = 1 server)   | Yes (many clients, 1 server)         |
+| **Network needed** | No                            | Yes (even localhost counts)          |
+| **Best for**       | Local tools, CLI, dev/testing | Web apps, remote servers, production |
+| **Complexity**     | Dead simple                   | A little more setup                  |
+
+---
+
+## Which one should I pick?
+
+- **Just learning or testing locally?** Use **stdio** — zero setup, just run it.
+- **Building something real with multiple users?** Use **SSE** — it scales and stays alive.
+- **Not sure?** Start with **stdio**. You can always switch to SSE later — the server code barely changes, only the transport line.
+
