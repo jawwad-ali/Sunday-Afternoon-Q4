@@ -1,0 +1,11 @@
+[project]
+name = "class22"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "asyncio>=4.0.0",
+    "fastmcp>=3.1.0",
+    "rich>=14.3.3",
+]
