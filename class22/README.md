@@ -120,3 +120,25 @@ On top of standard JSON-RPC errors, MCP defines additional error scenarios:
 ## Key Takeaway
 
 Everything that happens between an MCP Client and Server — listing tools, calling a tool, reading resources — is built on these **3 building blocks** of JSON-RPC: **Request**, **Response**, and **Error**.
+
+# MCP Prompts 🎯
+
+MCP Prompts are ready-made prompt templates that the **server provides to the client.**
+
+## The Mental Model
+
+> **"The Server is an expert who has already thought things through — the Client just places the order!"**
+
+### Simplest Analogy: How an Exam Paper Works
+
+**Teacher (Server)**
+- Prepares the questions in advance
+- Keeps them ready
+
+**Student (Client)**
+- Walks into the exam hall
+- Asks for the paper
+- Uses the questions as they are
+- Does NOT create a new paper themselves!
+
+---
