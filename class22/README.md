@@ -142,3 +142,54 @@ MCP Prompts are ready-made prompt templates that the **server provides to the cl
 - Does NOT create a new paper themselves!
 
 ---
+
+# MCP Sampling 🎯
+
+## What is it?
+
+In the normal flow:
+
+**Client → Server → Result**
+
+In sampling:
+
+**Server → Client → "Ask the LLM" → Server**
+
+The server wants to use an LLM itself — but it can't do it directly, so it asks the client!
+
+## Why?
+
+**Server has:**
+- No LLM access
+- No API key
+- Only tools and logic
+
+**Client has:**
+- LLM connected
+- API key available
+- Claude/GPT running
+
+## Who Pays the Bill?
+
+API key = Billing account
+
+- **Server's own key** → Server owner pays
+- **Sampling** → Client's key → Client pays
+
+Why should Anthropic pay when Claude Code's server runs?
+It's your account → You pay!
+
+## Security
+
+The server is a third-party tool. If you give it your API key:
+- The key could leak
+- The server could misuse it
+- It could make unlimited calls
+
+With sampling:
+- The key stays only with the Client
+- The server can never access it directly
+
+## Core Takeaway
+
+> **Sampling exists so that the Server stays powerful, but the Client's control, billing, and security always remain safe!**
