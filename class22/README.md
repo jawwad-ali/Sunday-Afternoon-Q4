@@ -1,4 +1,11 @@
-# JSON-RPC — Core Concepts
+# Class 22 — MCP Core Concepts
+
+---
+---
+
+# 1. JSON-RPC — The Language of MCP
+
+---
 
 ## What is JSON-RPC?
 
@@ -8,9 +15,7 @@ Think of your **MCP Client** as a person walking into a shop (MCP Server) to ask
 
 ---
 
-## 3 Core Concepts
-
-### 1. Request
+## 1.1 Request
 
 The client asks the server to do something.
 
@@ -32,7 +37,7 @@ The client asks the server to do something.
 
 ---
 
-### 2. Response
+## 1.2 Response
 
 The server replies back.
 
@@ -48,7 +53,7 @@ The `id` matches the original request — that's how the client knows which requ
 
 ---
 
-### 3. Error
+## 1.3 Error
 
 If something goes wrong:
 
@@ -62,7 +67,7 @@ If something goes wrong:
 
 ---
 
-## Bonus: Notification
+## 1.4 Notification (Bonus)
 
 A notification has **no `id`**. The client just informs the server — no reply needed.
 
@@ -75,7 +80,7 @@ A notification has **no `id`**. The client just informs the server — no reply 
 
 ---
 
-## Simple Analogy
+## 1.5 Simple Analogy
 
 | JSON-RPC         | Real Life                              |
 | ---------------- | -------------------------------------- |
@@ -88,9 +93,7 @@ A notification has **no `id`**. The client just informs the server — no reply 
 
 ---
 
----
-
-## Common JSON-RPC Error Codes
+## 1.6 Common JSON-RPC Error Codes
 
 These are the standard errors you may encounter during the MCP request-response cycle:
 
@@ -117,19 +120,24 @@ On top of standard JSON-RPC errors, MCP defines additional error scenarios:
 
 ---
 
-## Key Takeaway
+## 1.7 Key Takeaway
 
 Everything that happens between an MCP Client and Server — listing tools, calling a tool, reading resources — is built on these **3 building blocks** of JSON-RPC: **Request**, **Response**, and **Error**.
 
-# MCP Prompts 🎯
+---
+---
+
+# 2. MCP Prompts
+
+---
 
 MCP Prompts are ready-made prompt templates that the **server provides to the client.**
 
-## The Mental Model
+## 2.1 The Mental Model
 
 > **"The Server is an expert who has already thought things through — the Client just places the order!"**
 
-### Simplest Analogy: How an Exam Paper Works
+## 2.2 Simplest Analogy: How an Exam Paper Works
 
 **Teacher (Server)**
 - Prepares the questions in advance
@@ -142,10 +150,13 @@ MCP Prompts are ready-made prompt templates that the **server provides to the cl
 - Does NOT create a new paper themselves!
 
 ---
+---
 
-# MCP Sampling 🎯
+# 3. MCP Sampling
 
-## What is it?
+---
+
+## 3.1 What is it?
 
 In the normal flow:
 
@@ -157,7 +168,9 @@ In sampling:
 
 The server wants to use an LLM itself — but it can't do it directly, so it asks the client!
 
-## Why?
+---
+
+## 3.2 Why?
 
 **Server has:**
 - No LLM access
@@ -169,7 +182,9 @@ The server wants to use an LLM itself — but it can't do it directly, so it ask
 - API key available
 - Claude/GPT running
 
-## Why doesn't the Server hold the API key and call the LLM directly?
+---
+
+## 3.3 Why doesn't the Server hold the API key and call the LLM directly?
 
 API key = Billing account
 
@@ -179,7 +194,9 @@ API key = Billing account
 Why should Anthropic pay when Claude Code's server runs?
 It's your account → You pay!
 
-## Security
+---
+
+## 3.4 Security
 
 The server is a third-party tool. If you give it your API key:
 - The key could leak
@@ -190,13 +207,18 @@ With sampling:
 - The key stays only with the Client
 - The server can never access it directly
 
-## Core Takeaway
+---
+
+## 3.5 Core Takeaway
 
 > **Sampling exists so that the Server stays powerful, but the Client's control, billing, and security always remain safe!**
 
 ---
+---
 
-# MCP Transports — How Client and Server Talk
+# 4. MCP Transports — How Client and Server Talk
+
+---
 
 A **transport** is the method used to send messages between the Client and Server. Think of it as the road between two houses — the houses are the same, but the road can be different.
 
@@ -204,7 +226,7 @@ MCP supports two main transports: **stdio** and **SSE**.
 
 ---
 
-## stdio (Standard Input / Output)
+## 4.1 stdio (Standard Input / Output)
 
 ### What is it?
 
@@ -245,7 +267,7 @@ Imagine **whispering directly into someone's ear** in the same room. No phone ne
 
 ---
 
-## SSE (Server-Sent Events)
+## 4.2 SSE (Server-Sent Events)
 
 ### What is it?
 
@@ -289,7 +311,7 @@ Imagine a **radio station** broadcasting on a frequency. The station (server) is
 
 ---
 
-## How are JSON-RPC, stdio, and SSE related?
+## 4.3 How are JSON-RPC, stdio, and SSE related?
 
 They work at **different layers** — they are NOT alternatives to each other.
 
@@ -304,7 +326,7 @@ Both stdio and SSE carry the exact same JSON-RPC messages. Switching transport d
 
 ---
 
-## Side-by-Side Comparison
+## 4.4 Side-by-Side Comparison
 
 | Feature            | stdio                         | SSE                                  |
 | ------------------ | ----------------------------- | ------------------------------------ |
@@ -317,9 +339,8 @@ Both stdio and SSE carry the exact same JSON-RPC messages. Switching transport d
 
 ---
 
-## Which one should I pick?
+## 4.5 Which one should I pick?
 
 - **Just learning or testing locally?** Use **stdio** — zero setup, just run it.
 - **Building something real with multiple users?** Use **SSE** — it scales and stays alive.
 - **Not sure?** Start with **stdio**. You can always switch to SSE later — the server code barely changes, only the transport line.
-
