@@ -5,7 +5,16 @@ mcp = FastMCP()
 
 @mcp.tool()
 def mood_checker():
-    return {"status": "Sleeping Mode but studying 😴"}
+    return {
+        "status": "Sleeping Mode but studying 😴"
+        }
+
+
+@mcp.resource("my_data://mood")
+def mood_checker():
+    return {
+        "status": "Sleeping Mode but studying 😴"
+        }
 
 if __name__ == "__main__":
     mcp.run() # Defaults to stdio
